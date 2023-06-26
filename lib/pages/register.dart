@@ -45,15 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   border: OutlineInputBorder(),
                   hintText: 'Digite sua senha',
                 ),
-              ),
-              const SizedBox(height: 10,),
-              Text("Confirmar senha"),
-              const SizedBox(height: 10,),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Confirme sua senha',
-                ),
                 controller: _password,
               ),
               const SizedBox(height: 30,),

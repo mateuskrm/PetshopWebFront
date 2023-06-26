@@ -37,7 +37,7 @@ class _ClientesState extends State<Clientes> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,                
-                mainAxisExtent: 150,
+                mainAxisExtent: 200,
               ),
             
               itemCount: clientes.length,
@@ -49,8 +49,8 @@ class _ClientesState extends State<Clientes> {
                     child: Row(
                       children: [
                         Container(
-                          width: 100,
-                          height: 150,
+                          width: MediaQuery.of(context).size.width * 0.06,
+                          height: MediaQuery.of(context).size.width * 0.09,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class _ClientesState extends State<Clientes> {
                         ),
                         VerticalDivider(),
                         Container(
-                          width: 300,
+                          width: MediaQuery.of(context).size.width * 0.2,
                           child: Column(
                             children: [
                               Text(clientes[index].nome, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),

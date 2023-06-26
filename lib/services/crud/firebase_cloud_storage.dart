@@ -1,5 +1,6 @@
   import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:petshop_front/models/agendaInfo.dart';
 import 'package:petshop_front/models/cliente.dart';
 import 'package:petshop_front/models/pet.dart';
 
@@ -12,6 +13,38 @@ class FirebaseCloudStorage
     final pets = FirebaseFirestore.instance.collection('Pets');
     final agendas = FirebaseFirestore.instance.collection('Agendamento');
 
+
+    Future<Cliente> getClientebyId({required String clienteId}) async{
+      try{
+        final query = await clientes.get();
+        return await clientes.doc(clienteId).get().then((value) =>  Cliente(clienteId: value.id, nome: value['Nome'],
+         atendimentos: value['Atendimentos'], endereco: value['Endereço'], userId: value['UserId']));
+      }catch(_){
+        throw CouldNotGetAllItemsException();
+      }
+    }
+
+    Future<Pet>getPetbyId({required String petId}) async{
+      try{
+        final query = await pets.get();
+        return await pets.doc(petId).get().then((value) => Pet(userId: value['UserId'], idDono: value['idDono'], nome: value['nome'], tipoPet: value['tipoPet'], petId: value.id));
+      }catch(_){
+        throw CouldNotGetAllItemsException();
+      }
+    }
+
+    Future<AgendaInfo> getAgendaInfo({required String clienteId, required String petId})async{
+      late final Cliente cliente;
+      late final Pet pet;
+      try{
+        cliente = await getClientebyId(clienteId: clienteId);
+        pet = await getPetbyId(petId: petId);
+        return AgendaInfo(nomeCliente: cliente.nome, nomePet: pet.nome);
+      }catch(_)
+      {
+        throw CouldNotGetAllItemsException();
+      }
+    }
     //create the CRUD for agendas
     Future<Agenda> createAgenda({
       required String userId,

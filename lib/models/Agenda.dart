@@ -7,5 +7,5 @@ class Agenda{
   String userId;
   DateTime data;
   Agenda({required this.dataId, required this.donoId, required this.petId, required this.data, required this.userId});
-  Agenda.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot): dataId = snapshot.id, donoId = snapshot.data()['DonoId'], petId = snapshot.data()['PetId'], data = snapshot.data()['Data'].toDate(), userId = snapshot.data()['UserId'];
+  Agenda.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot): dataId = snapshot.id, donoId = snapshot.data()['donoId'], petId = snapshot.data()['petId'], data = snapshot.data()['data'].toDate(), userId = snapshot.data()['UserId'];
 }
