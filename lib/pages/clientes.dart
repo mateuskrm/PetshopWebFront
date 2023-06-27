@@ -27,6 +27,7 @@ class _ClientesState extends State<Clientes> {
   }
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Container(
       width: MediaQuery.of(context).size.width ,
       height: MediaQuery.of(context).size.height,

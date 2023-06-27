@@ -29,6 +29,13 @@
             {
               "client_id": "779066729365-1bba0knal088in27v9u6n0i2qe0o64tb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "779066729365-3thn9drfps01lpv2s5qc81qb3065logs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.petshopFront"
+              }
             }
           ]
         }

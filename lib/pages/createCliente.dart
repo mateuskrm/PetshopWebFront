@@ -22,7 +22,7 @@ class _createClientePageState extends State<createClientePage> {
   TextEditingController _enderecoController = TextEditingController();
 
   @override
-  void iniitState() {
+  void initState() {
     super.initState();
      _authUser = AuthService.firebase().authUser!;
     _clientesService = FirebaseCloudStorage();
@@ -78,12 +78,9 @@ class _createClientePageState extends State<createClientePage> {
                     ),
                     SizedBox(height: 20,),
                     ElevatedButton(
-                      onPressed: ()async {
+                      onPressed: ()  {
                         if (_formKey.currentState!.validate()){
-                          await _clientesService.createCliente(userId: _authUser.id, nome: _nomeController.text, endereco: _enderecoController.text, );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
+                           _clientesService.createCliente(userId: _authUser.id, nome: _nomeController.text, endereco: _enderecoController.text);
 
                           Navigator.pop(context);
                         }

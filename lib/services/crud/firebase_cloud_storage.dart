@@ -20,7 +20,7 @@ class FirebaseCloudStorage
       try{
         final query = await clientes.get();
         return await clientes.doc(clienteId).get().then((value) =>  Cliente(clienteId: value.id, nome: value['Nome'],
-         atendimentos: value['Atendimentos'], endereco: value['Endereço'], userId: value['UserId']));
+         atendimentos: value['Atendimentos'], endereco: value['Endereco'], userId: value['UserId']));
       }catch(_){
         throw CouldNotGetAllItemsException();
       }
@@ -226,29 +226,21 @@ class FirebaseCloudStorage
           userId: e.data()['UserId'],
           nome: e.data()['Nome'],
           atendimentos: e.data()['Atendimentos'],
-          endereco: e.data()['Endereço']
+          endereco: e.data()['Endereco']
         );}
-        ));
+        )); 
       }catch(e){
         throw CouldNotGetAllItemsException();
       }
     }
     
-    Future<Cliente> createCliente({required String userId, required String nome, required String endereco})async {
-      final document = await clientes.add({
+    void createCliente({required String userId, required String nome, required String endereco}) async {
+      await clientes.add({
         'UserId': userId,
         'Nome': nome,
         'Endereco': endereco,
         'Atendimentos': 0
       });
-      final fetchedCliente = await document.get();
-      return Cliente(
-        clienteId: fetchedCliente.id,
-        userId: fetchedCliente.data()!['UserId'],
-        nome: fetchedCliente.data()!['Nome'],
-        endereco: fetchedCliente.data()!['Endereco'],
-        atendimentos: fetchedCliente.data()!['Atendimentos']
-      );
     }
 
     static final FirebaseCloudStorage _shared = FirebaseCloudStorage._sharedInstance();
