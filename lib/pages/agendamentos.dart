@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:petshop_front/models/Agenda.dart';
 import 'package:petshop_front/models/agendaInfo.dart';
+import 'package:petshop_front/pages/createAgenda.dart';
+import 'package:petshop_front/pages/updateAgenda.dart';
 
 import '../models/cliente.dart';
 import '../models/pet.dart';
@@ -34,74 +36,109 @@ class _AgendamentoState extends State<Agendamento> {
   @override
   Widget build(BuildContext context) {
       return Container(
-      width: MediaQuery.of(context).size.width * 0.75,
-      height: MediaQuery.of(context).size.height * 0.75,
-      child: FutureBuilder(
-        future: _agendasService.getAgendas(userId: _authUser.id),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            agendas = snapshot.data!.toList();
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,                
-                mainAxisExtent: 200,
-              ),
-            
-              itemCount: agendas.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 300,
-                  height: 400,
-                  child: FutureBuilder(
-                    future: _agendasService.getAgendaInfo(clienteId: agendas[index].donoId, petId: agendas[index].petId),
-                    builder: (context, snapshot) {
-                      agendaInfo = snapshot.data!;
-                      if(snapshot.hasData){
-                      return Card(
-                      child: Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            height: MediaQuery.of(context).size.width * 0.09,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset("assets/images/homem.png"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          VerticalDivider(),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: Column(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height, 
+      child: Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.75,
+            height: MediaQuery.of(context).size.height * 0.75,
+            child: FutureBuilder(
+              future: _agendasService.getAgendas(userId: _authUser.id),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  agendas = snapshot.data!.toList();
+                  return GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,                
+                      mainAxisExtent: 200,
+                    ),
+                  
+                    itemCount: agendas.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 300,
+                        height: 400,
+                        child: FutureBuilder(
+                          future: _agendasService.getAgendaInfo(clienteId: agendas[index].donoId, petId: agendas[index].petId),
+                          builder: (context, snapshot) {
+                            agendaInfo = snapshot.data!;
+                            if(snapshot.hasData){
+                            return Card(
+                            child: Row(
                               children: [
-                                Text(agendas[index].data.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                                Divider(),
-                                SizedBox(height: 20,),
-                                Text("Cliente: ${agendaInfo.nomeCliente}"),
-                                SizedBox(height: 10,),
-                                Text("Pet: ${agendaInfo.nomePet}"),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.06,
+                                  height: MediaQuery.of(context).size.width * 0.09,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset("assets/images/homem.png"),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                VerticalDivider(),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  child: Column(
+                                    children: [
+                                      Text(agendas[index].data.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                                      Divider(),
+                                      SizedBox(height: 20,),
+                                      Text("Cliente: ${agendaInfo.nomeCliente}"),
+                                      SizedBox(height: 10,),
+                                      Text("Pet: ${agendaInfo.nomePet}"),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Expanded(
+                                          child: Row(
+                                            children: [
+                                              IconButton(onPressed: (){
+                                                _agendasService.deleteAgenda(documentId: agendas[index].dataId);
+                                              }, icon:  Icon(Icons.cancel, color: Colors.red,)),
+                                              SizedBox(width: 10,),
+                                              IconButton(onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateAgendaPage(agenda: agendas[index]),));
+                                              }, icon:  Icon(Icons.edit, color: Colors.yellow,)),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                        );
-                      }else {
-                        return CircularProgressIndicator();
-                      }
-                    }
-                  ),
-                );
+                              );
+                            }else {
+                              return CircularProgressIndicator();
+                            }
+                          }
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(child:Text("Sem dados"));
+                }
               },
-            );
-          } else {
-            return const Center(child:Text("Sem dados"));
-          }
-        },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => createAgendaPage()));
+              },
+              child: Icon(Icons.add),
+              ),
+            ),
+          )
+        ],
       )
     );
   }

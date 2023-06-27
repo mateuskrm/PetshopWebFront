@@ -1,4 +1,6 @@
-  import 'package:cloud_firestore/cloud_firestore.dart';
+  import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:petshop_front/models/agendaInfo.dart';
 import 'package:petshop_front/models/cliente.dart';
@@ -178,12 +180,21 @@ class FirebaseCloudStorage
         throw CouldNotGetAllItemsException();
       }
     }
+
+    Future<Iterable<Pet>> getPetsbyClienteId({required String clienteId}) async{
+      try{
+        return await pets.where('IdDono', isEqualTo: clienteId).get().then((value) => value.docs.map((e) { return Pet.fromSnapshot(e);}
+        ));
+      }catch(e){
+        throw CouldNotGetAllItemsException();
+      }
+    }
     
     Future<void> updateCliente({
       required String documentId,
       required String nome,
       required String endereco,
-      required String atendimentos
+      required int atendimentos
     }) async{
       try{
         await clientes.doc(documentId).update({
@@ -196,7 +207,7 @@ class FirebaseCloudStorage
       }
     }
 
-    Future<void> deleteNote({required String documentId}) async{
+    Future<void> deleteCliente({required String documentId}) async{
       try{
         await clientes.doc(documentId).delete();
       }catch(e){
