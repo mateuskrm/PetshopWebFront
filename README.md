@@ -1,16 +1,3 @@
-# petshop_front
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para Executar esse projeto será necessário o SDK do flutter: https://docs.flutter.dev/get-started/install/windows, e uma IDE (de preferência VScode).
+No VSCode a extensão utilizada é a do Flutter. Após clonar o projeto e abri-lo na IDE, executar no terminal o comando 'Flutter pub get' para configurar os packages utilizados no projeto.
+Antes de executar o projeto deve ser selecionado um browser como device (preferencialmente Edge ou Chrome). Após esses passos o projeto está pronto para ser executado
